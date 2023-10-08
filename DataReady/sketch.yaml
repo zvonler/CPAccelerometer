@@ -1,0 +1,15 @@
+profiles:
+  cpx:
+    fqbn: arduino:samd:adafruit_circuitplayground_m0
+    platforms:
+      - platform: arduino:samd (1.8.13)
+    libraries:
+      - Adafruit Circuit Playground (1.11.5)
+
+  cpbf:
+    fqbn: adafruit:nrf52:cplaynrf52840
+    platforms:
+      - platform: adafruit:nrf52 (1.5.0)
+        platform_index_url: https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
+    libraries:
+      - Adafruit Circuit Playground (1.11.5)
