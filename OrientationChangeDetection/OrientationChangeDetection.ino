@@ -19,11 +19,11 @@ void configure_lis3dh(void) {
     writeRegister(LIS3DH_REG_CTRL2, 0xC0);    // Autoreset on interrupt, HPF enabled for AOI on INT1
     writeRegister(LIS3DH_REG_CTRL3, 0x40);    // IA1 interrupt signal routed to INT1 pin
     writeRegister(LIS3DH_REG_CTRL4, 0x20);    // Full Scale = +/-8 g
-    writeRegister(LIS3DH_REG_CTRL5, 0x04);    // Latch interupts - read the INT1_SRC register to clear
+    writeRegister(LIS3DH_REG_CTRL5, 0x00);
 
-    writeRegister(LIS3DH_REG_INT1DUR, 0x00);  // Duration 0 since latching interrupts
+    writeRegister(LIS3DH_REG_INT1DUR, 0x0C);
     writeRegister(LIS3DH_REG_INT1CFG, 0xFF);  // Enable 6D position recognition
-    writeRegister(LIS3DH_REG_INT1THS, 0x0F);
+    writeRegister(LIS3DH_REG_INT1THS, 0x0D);
 
     // Interrupt will already be latched so have to clear it here
     auto int1_src = readRegister(LIS3DH_REG_INT1SRC);
