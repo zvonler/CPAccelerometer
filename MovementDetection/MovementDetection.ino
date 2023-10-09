@@ -16,11 +16,11 @@ void configure_lis3dh(void) {
     Adafruit_CPlay_LIS3DH& lis = CircuitPlayground.lis;
 
     writeRegister(LIS3DH_REG_CTRL1, 0x47);    // Enable X, Y, Z axes with ODR = 50Hz normal mode
-    writeRegister(LIS3DH_REG_CTRL2, 0x09);    // High-pass filter (HPF) enabled
+    writeRegister(LIS3DH_REG_CTRL2, 0x01);    // High-pass filter (HPF) enabled for IA1
     writeRegister(LIS3DH_REG_CTRL3, 0x40);    // IA1 interrupt signal routed to INT1 pin
     writeRegister(LIS3DH_REG_CTRL4, 0x20);    // Full Scale = +/-8 g
     writeRegister(LIS3DH_REG_CTRL5, 0x08);    // Latch interupts - read the INT1_SRC register to clear
-    writeRegister(LIS3DH_REG_INT1THS, 0x08);  // Threshold (THS) = 8LSBs * 62/LSB = 496mg
+    writeRegister(LIS3DH_REG_INT1THS, 0x20);  // Threshold (THS) = 8LSBs * 62/LSB = 496mg
     writeRegister(LIS3DH_REG_INT1DUR, 0x00);  // Duration 0 since latching interrupts
     writeRegister(LIS3DH_REG_INT1CFG, 0x2A);  // Enable XHIE, YHIE, ZHIE interrupt generation, OR logic
 }
