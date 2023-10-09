@@ -1,1 +1,1 @@
-Experiments with the Circuit Playground LID3DH.
+Experiments with the Circuit Playground LIS3DH.
