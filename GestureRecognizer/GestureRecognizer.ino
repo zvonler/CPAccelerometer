@@ -23,13 +23,13 @@ void configure_lis3dh(void) {
 
     writeRegister(LIS3DH_REG_INT1DUR, 0xA0);
     writeRegister(LIS3DH_REG_INT1CFG, 0xFF);
-    writeRegister(LIS3DH_REG_INT1THS, 0x09);
+    writeRegister(LIS3DH_REG_INT1THS, 0x0C);
 
     writeRegister(LIS3DH_REG_CLICKCFG, 0x20); // Double tap on Z axis
     writeRegister(LIS3DH_REG_CLICKTHS, 0x20);
-    writeRegister(LIS3DH_REG_TIMELIMIT, 0x0A);
-    writeRegister(LIS3DH_REG_TIMELATENCY, 0x50);
-    writeRegister(LIS3DH_REG_TIMEWINDOW, 0xC0);
+    writeRegister(LIS3DH_REG_TIMELIMIT, 0x10);
+    writeRegister(LIS3DH_REG_TIMELATENCY, 0x30);
+    writeRegister(LIS3DH_REG_TIMEWINDOW, 0x80);
 }
 
 void setup(void) {
