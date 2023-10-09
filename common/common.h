@@ -54,6 +54,10 @@ void describe_lis3dh_status(const char* prefix) {
         sensors_event_t event;
         lis.getEvent(&event);
 
+        if (status2 & 0x80) {
+            Serial.println("Overrun bit set - some data was lost");
+        }
+
         Serial.print(prefix);
         Serial.print(" int_1src 0x"); Serial.print(int1_src, HEX);
         Serial.print(" status1 0x"); Serial.print(status1, HEX);

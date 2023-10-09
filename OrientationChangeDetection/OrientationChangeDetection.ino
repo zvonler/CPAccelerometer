@@ -4,6 +4,7 @@
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_CircuitPlayground.h>
+#include "common.h"
 
 volatile bool lis3dh_data_ready = false;
 
@@ -21,7 +22,10 @@ void configure_lis3dh(void) {
     writeRegister(LIS3DH_REG_CTRL5, 0x04);    // Latch interupts - read the INT1_SRC register to clear
     writeRegister(LIS3DH_REG_INT1THS, 0x08);  // Threshold (THS) = 8LSBs * 62/LSB = 496mg
     writeRegister(LIS3DH_REG_INT1DUR, 0x00);  // Duration 0 since latching interrupts
-    writeRegister(LIS3DH_REG_INT1CFG, 0xC0);  // Enabled 6D position recognition
+    writeRegister(LIS3DH_REG_INT1CFG, 0xC0);  // Enable 6D position recognition
+
+    // Interrupt will already be latched so have to clear it here
+    auto int1_src = readRegister(LIS3DH_REG_INT1SRC);
 }
 
 void setup(void) {
@@ -33,6 +37,9 @@ void setup(void) {
     describe_lis3dh_configuration();
 
     attachInterrupt(digitalPinToInterrupt(CPLAY_LIS3DH_INTERRUPT), lis3dh_ISR, RISING);
+
+    // Interrupt will already be latched so have to clear it here
+    auto int1_src = readRegister(LIS3DH_REG_INT1SRC);
 }
 
 void loop() {

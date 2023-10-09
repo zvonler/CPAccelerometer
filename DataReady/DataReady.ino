@@ -1,5 +1,5 @@
 
-// Demonstrates handling the data ready interrupt.
+// Demonstrates using the data ready interrupt instead of polling.
 
 #include <Wire.h>
 #include <SPI.h>
@@ -15,14 +15,20 @@ void lis3dh_ISR() {
 void configure_lis3dh(void) {
     Adafruit_CPlay_LIS3DH& lis = CircuitPlayground.lis;
 
-    writeRegister(LIS3DH_REG_CTRL1, 0x47);    // Enable X, Y, Z axes with ODR = 50Hz normal mode
+    writeRegister(LIS3DH_REG_CTRL1, 0x1F);    // Enable X, Y, Z axes with ODR = 1Hz 8-bit low-power mode
     writeRegister(LIS3DH_REG_CTRL2, 0x09);    // High-pass filter (HPF) enabled
-    writeRegister(LIS3DH_REG_CTRL3, 0x10);    // ZYXDA interrupt signal routed to INT1 pin
+    writeRegister(LIS3DH_REG_CTRL3, 0x10);    // Enable I1_ZYXDA
     writeRegister(LIS3DH_REG_CTRL4, 0x20);    // Full Scale = +/-8 g
-    writeRegister(LIS3DH_REG_CTRL5, 0x08);    // Latch interupts - read the INT1_SRC register to clear
-    writeRegister(LIS3DH_REG_INT1THS, 0x08);  // Threshold (THS) = 8LSBs * 62/LSB = 496mg
-    writeRegister(LIS3DH_REG_INT1DUR, 0x00);  // Duration 0 since latching interrupts
-    writeRegister(LIS3DH_REG_INT1CFG, 0x2A);  // Enable XHIE, YHIE, ZHIE interrupt generation, OR logic
+    writeRegister(LIS3DH_REG_CTRL5, 0x00);
+    writeRegister(LIS3DH_REG_CTRL6, 0x00);
+
+    writeRegister(LIS3DH_REG_REFERENCE, 0x00);
+
+    writeRegister(LIS3DH_REG_INT1THS, 0x00);
+    writeRegister(LIS3DH_REG_INT1DUR, 0x00);
+    writeRegister(LIS3DH_REG_INT1CFG, 0x00);
+
+    writeRegister(LIS3DH_REG_CTRL5, 0x00);
 }
 
 void setup(void) {
@@ -35,8 +41,8 @@ void setup(void) {
 
     attachInterrupt(digitalPinToInterrupt(CPLAY_LIS3DH_INTERRUPT), lis3dh_ISR, RISING);
 
-    // Interrupt will already be latched so have to clear it here
-    auto int1_src = readRegister(LIS3DH_REG_INT1SRC);
+    // This initial read resets the interrupt state
+    describe_lis3dh_status("Initial");
 }
 
 void loop() {
@@ -45,6 +51,6 @@ void loop() {
         lis3dh_data_ready = false;
     }
 
-    delay(1);
+    delay(10);
 }
 
