@@ -15,20 +15,20 @@ void lis3dh_ISR() {
 void configure_lis3dh(void) {
     Adafruit_CPlay_LIS3DH& lis = CircuitPlayground.lis;
 
-    writeRegister(LIS3DH_REG_CTRL1, 0x47);    // Enable X, Y, Z axes with ODR = 50Hz normal mode
-    writeRegister(LIS3DH_REG_CTRL2, 0x40);    // High-pass filter (HPF) enabled for CLICK
+    writeRegister(LIS3DH_REG_CTRL1, 0x77);    // Enable X, Y, Z axes with ODR = 400Hz low-power mode
+    writeRegister(LIS3DH_REG_CTRL2, 0x04);    // High-pass filter (HPF) enabled for CLICK
     writeRegister(LIS3DH_REG_CTRL3, 0x80);    // Click interrupt signal routed to INT1 pin
     writeRegister(LIS3DH_REG_CTRL4, 0x20);    // Full Scale = +/-8 g
-    writeRegister(LIS3DH_REG_CTRL5, 0x08);    // Latch interupts - read the INT1_SRC register to clear
+    writeRegister(LIS3DH_REG_CTRL5, 0x00);
 
     writeRegister(LIS3DH_REG_INT1DUR, 0x00);  // Duration 0 since latching interrupts
     writeRegister(LIS3DH_REG_INT1CFG, 0x00);
 
     writeRegister(LIS3DH_REG_CLICKCFG, 0x20); // Double tap on Z axis
-    writeRegister(LIS3DH_REG_CLICKTHS, 0x20);
-    writeRegister(LIS3DH_REG_TIMELIMIT, 0x0A);
-    writeRegister(LIS3DH_REG_TIMELATENCY, 0x14);
-    writeRegister(LIS3DH_REG_TIMEWINDOW, 0x80);
+    writeRegister(LIS3DH_REG_CLICKTHS, 0x27);
+    writeRegister(LIS3DH_REG_TIMELIMIT, 0x06);
+    writeRegister(LIS3DH_REG_TIMELATENCY, 0x20);
+    writeRegister(LIS3DH_REG_TIMEWINDOW, 0x70);
 }
 
 void setup(void) {
