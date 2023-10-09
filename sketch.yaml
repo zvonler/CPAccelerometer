@@ -1,8 +1,0 @@
-profiles:
-  cpx:
-    fqbn: arduino:samd:adafruit_circuitplayground_m0
-    platforms:
-      - platform: arduino:samd (1.8.13)
-    libraries:
-      - Adafruit Circuit Playground (1.11.5)
-
