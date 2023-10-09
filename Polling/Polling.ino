@@ -10,9 +10,9 @@ void configure_lis3dh(void) {
     Adafruit_CPlay_LIS3DH& lis = CircuitPlayground.lis;
 
     writeRegister(LIS3DH_REG_CTRL1, 0x2F);    // Enable X, Y, Z axes with ODR = 10Hz 8-bit low-power mode
-    writeRegister(LIS3DH_REG_CTRL2, 0x09);    // High-pass filter (HPF) enabled
+    writeRegister(LIS3DH_REG_CTRL2, 0x00);    // High-pass filter (HPF) disabled
     writeRegister(LIS3DH_REG_CTRL3, 0x00);
-    writeRegister(LIS3DH_REG_CTRL4, 0x20);    // Full Scale = +/-8 g
+    writeRegister(LIS3DH_REG_CTRL4, 0xA0);    // BDU enabled, Full Scale = +/-8 g
     writeRegister(LIS3DH_REG_CTRL5, 0x00);
     writeRegister(LIS3DH_REG_CTRL6, 0x00);
 
