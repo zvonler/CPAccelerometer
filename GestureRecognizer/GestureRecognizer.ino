@@ -32,6 +32,26 @@ void configure_lis3dh(void) {
     writeRegister(LIS3DH_REG_TIMEWINDOW, 0x80);
 }
 
+const char* position_description(byte int1_src)
+{
+    if (int1_src & 0x20) {
+        return "Z UP";
+    } else if (int1_src & 0x10) {
+        return "Z DOWN";
+    } else if (int1_src & 0x08) {
+        return "Y UP";
+    } else if (int1_src & 0x04) {
+        return "Y DOWN";
+    } else if (int1_src & 0x02) {
+        return "X UP";
+    } else if (int1_src & 0x01) {
+        return "X DOWN";
+    } else {
+        return "UNKNOWN";
+    }
+    // Unreachable
+}
+
 void setup(void) {
     Serial.begin(115200);
     while (!Serial) delay(10);
@@ -49,7 +69,6 @@ void setup(void) {
 void loop() {
     if (lis3dh_data_ready) {
         auto int1_src = readRegister(LIS3DH_REG_INT1SRC);
-        auto prefix = int1_src & 0x3F ? "Position change" : "Double tap detected";
         auto status1 = readRegister(LIS3DH_REG_STATUS1);
         auto status2 = readRegister(LIS3DH_REG_STATUS2);
         auto ref = readRegister(LIS3DH_REG_REFERENCE);  // Dummy read to force the HP filter to set reference acceleration/tilt value
@@ -62,7 +81,12 @@ void loop() {
             Serial.println("Overrun bit set - some data was lost");
         }
 
-        Serial.print(prefix);
+        if (int1_src & 0x3F) {
+            Serial.print("Position changed to ");
+            Serial.print(position_description(int1_src));
+        } else {
+            Serial.print("Double tap detected");
+        }
         Serial.print(" int_1src 0x"); Serial.print(int1_src, HEX);
         Serial.print(" status1 0x"); Serial.print(status1, HEX);
         Serial.print(" status2 0x"); Serial.print(status2, HEX);
