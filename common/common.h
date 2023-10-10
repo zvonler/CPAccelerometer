@@ -6,6 +6,16 @@
 #include <SPI.h>
 #include <Adafruit_CircuitPlayground.h>
 
+enum Position {
+    UNKNOWN,
+    Z_UP,
+    Z_DOWN,
+    Y_UP,
+    Y_DOWN,
+    X_UP,
+    X_DOWN
+};
+
 unsigned int readRegister(byte reg) {
     Wire1.beginTransmission(CPLAY_LIS3DH_ADDRESS);
     Wire1.write(reg);
